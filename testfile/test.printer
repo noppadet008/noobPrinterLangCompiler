@@ -1,0 +1,8 @@
+$var = 7;
+loop $var<8 {
+	when $var{
+		$var = $var+1;
+		printer $var;
+		printer "hello world";
+	}
+}
