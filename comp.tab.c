@@ -1900,12 +1900,14 @@ void yyerror (char const *s)
 }
 
 
-int main()
+int main(int argc, char *argv[])
 {
 	int result;
 	syntax_stack = stack_new();
 	string_stack = stack_new();
 	result = yyparse();
+	printf("%s",argv[0]);
+	printf("%s",argv[1]);
 	if (result != 0) {
         printf("\n");
         goto cleanup_syntax;

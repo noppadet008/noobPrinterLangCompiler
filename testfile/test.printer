@@ -1,8 +1,11 @@
 $var = 7;
 loop $var<8 {
-	when $var{
-		$var = $var+1;
+	when $var<10{
+		
 		printer $var;
 		printer "hello world";
 	}
+	printer "loop\n";
+	$var = $var+1;
 }
+printer "out";

@@ -36,7 +36,8 @@ int labelconditionid = 0;
 List* tablevar = NULL;
 
  void write_asm(Syntax* complete_syntax,Stack* string_stack){
-	openf("test.s"); //open file.
+	 tablevar = list_new();
+	openf("output.s"); //open file.
 	emit_format();
 	emit_str(string_stack);
 	emit_header();	//print .text
@@ -48,6 +49,7 @@ List* tablevar = NULL;
 		printf("invalid syntax");
 	emit_footer(); //ralloc for main
 	closef(fp); //close file.
+	free(tablevar);
 }
 
 int findOffsetVar(char* varname){
@@ -164,7 +166,7 @@ void emit_instr_format( char *instr, char *operands_format, ...) {
 void openf(char* filename){
 	errno_t err;
 
-	err = fopen_s(&fp, "test.s", "w+");// file open function fix here
+	err = fopen_s(&fp, filename, "w+");// file open function fix here
 	if (err == 0)
 	{
 		printf("The file 'crt_fopen_s.c' was opened\n");
@@ -194,25 +196,25 @@ void closef(){
 
 /*emit token*/
 void emitblock(Syntax* syntax){
+	/*
 	List* temp;
 	//no reset offset because no use function
 	if(tablevar)//for store old table.
 		temp = tablevar;
-	tablevar = list_new();
+		*/
 	List *stmt = syntax->block->statements;
 	for (int i = 0; i < list_length(stmt); i++) {
     	emitstmt(list_get(stmt,i));//for each stmt.
     }
-	free(tablevar);
-	tablevar = temp;
+	//free(tablevar);
+	//tablevar = temp;
 }
 
 void emitstmt(void* stmt){
 	Syntax *st = (Syntax*) stmt;
 	if(st->type == IF_STATEMENT){
-		int label = labelconditionid;
+		int label = labelconditionid++;
 		char c[10];
-		labelconditionid++;
 		emit_condition(st->if_statement->condition,label);
 		emitblock(st->if_statement->then);
 		sprintf(c,".LC%d",label);
@@ -220,7 +222,7 @@ void emitstmt(void* stmt){
 	}else if(st->type == WHILE_SYNTAX){
 		int labelcondition,labelblock;
 		labelcondition = labelconditionid++;
-		labelblock = labelconditionid;
+		labelblock = labelconditionid++;
 		char c[10];
 		emit_instr_format("jmp",".LC%d",labelcondition);//to check condition
 		sprintf(c,".LC%d",labelblock);
@@ -377,9 +379,12 @@ void emit_condition(Syntax* condition,int label){
 		}
 		
 		emit_instr_format("movq","%s, %%r8",r);
-		if(binary_syntax->binary_type == LESS_THAN){
-			emit_instr_format("cmpq","%%r8 ,%%rax");//greater or equal swap.
-			emit_instr_format("jge",".LC%d",label);
+		if(binary_syntax->binary_type == LESS_THAN){// l = arg1 r= arg2
+			emit_instr_format("cmpq","%%r8, %%rax"); //cmpq arg2, arg1 gas syntax.
+			emit_instr_format("jl",".LC%d",label);
+		}else if(binary_syntax->binary_type == LESS_THAN_OR_EQUAL){
+			emit_instr_format("cmpq","%%r8, %%rax");
+			emit_instr_format("jle",".LC%d",label);
 		}else if(binary_syntax->binary_type == EQUAL){
 			emit_instr_format("cmpq","%%rax, %%r8");
 			emit_instr_format("jne",".LC%d",label);

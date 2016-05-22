@@ -149,6 +149,8 @@ Syntax *less_than_new(Syntax *left, Syntax *right);
 
 Syntax *less_or_equal_new(Syntax *left, Syntax *right);
 
+BinaryExpressionType invertCondition(BinaryExpressionType type);
+
 Syntax *assignment_new(char *var_name, Syntax *expression);
 
 Syntax *block_new(List *statements);

@@ -35,10 +35,11 @@ L		[a-zA-Z_]
     #include <string.h>
 	int binary_decimal(char *);
 	int hex_decimal(char *);
-   
     void comment();
     char* normstr(char* str);
 %}
+
+
 
 %option noyywrap
 %%
@@ -68,7 +69,7 @@ L		[a-zA-Z_]
 "#"						 { return EQ; }
 ">"                      { return MORETHAN;}
 "<"                      { return LESSTHAN;}
-["]({L}|[ ])*["]         { yylval.str = normstr(yytext); return STRING;}
+["]({L}|[^\n])*["]        { yylval.str = normstr(yytext); return STRING;}
 ";"                      { return SEMICOLON;}
 .						 { }
 
@@ -132,7 +133,7 @@ char* normstr(char* str){
 }
 
 /* test flex */
-/* commented 
+/*commented 
 int main(){
     int tokenNumber;
 	while(tokenNumber = yylex()){
@@ -146,6 +147,6 @@ int main(){
 	
     return 0;
 }
-*/
 
+*/
 

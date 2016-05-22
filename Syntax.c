@@ -213,7 +213,14 @@ Syntax *block_new(List *statements) {
 }
 
 Syntax *if_new(Syntax *condition, Syntax *then) {
+    BinaryExpression *temp = malloc(sizeof(BinaryExpression));
     IfStatement *if_statement = malloc(sizeof(IfStatement));
+    temp->binary_type = 
+        invertCondition(condition->binary_expression->binary_type);
+    temp->left = condition->binary_expression->right;
+    temp->right = condition->binary_expression->left;
+    free(condition->binary_expression); // delete old.
+    condition->binary_expression = temp; //assign new.
     if_statement->condition = condition;
     if_statement->then = then;
 
@@ -222,6 +229,14 @@ Syntax *if_new(Syntax *condition, Syntax *then) {
     syntax->if_statement = if_statement;
 
     return syntax;
+}
+
+BinaryExpressionType invertCondition(BinaryExpressionType type){
+    if(type == LESS_THAN)
+        return LESS_THAN_OR_EQUAL;
+    else if(type == LESS_THAN_OR_EQUAL){
+        return LESS_THAN;
+    }
 }
 
 Syntax *define_var_new(char *var_name, Syntax *init_value) {
