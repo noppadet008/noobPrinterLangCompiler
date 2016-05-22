@@ -69,6 +69,8 @@ L		[a-zA-Z_]
 "#"						 { return EQ; }
 ">"                      { return MORETHAN;}
 "<"                      { return LESSTHAN;}
+"<="                     { return LESSTHAN_EQ;}
+">="                     { return MORETHAN_EQ;}
 ["]({L}|[^\n])*["]        { yylval.str = normstr(yytext); return STRING;}
 ";"                      { return SEMICOLON;}
 .						 { }

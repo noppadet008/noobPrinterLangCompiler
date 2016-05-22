@@ -30,7 +30,7 @@
 %token STRING SEMICOLON 
 
 %nonassoc ASSIGN
-%nonassoc MORETHAN LESSTHAN EQ
+%nonassoc MORETHAN LESSTHAN EQ MORETHAN_EQ LESSTHAN_EQ
 %left ADD MINUS
 %left MUL DIV MOD
 %right NEG
@@ -203,6 +203,18 @@ condition: expression EQ expression
 					Syntax *left = stack_pop(syntax_stack);
             		stack_push(syntax_stack, less_than_new(left, right));
 				}
+			|  expression LESSTHAN_EQ expression
+				{
+					Syntax *right = stack_pop(syntax_stack); 
+					Syntax *left = stack_pop(syntax_stack);
+            		stack_push(syntax_stack, less_or_equal_new(left, right));
+				}
+			|  expression MORETHAN_EQ expression
+				{
+					Syntax *left = stack_pop(syntax_stack); 
+					Syntax *right = stack_pop(syntax_stack);
+            		stack_push(syntax_stack, less_or_equal_new(left, right));
+				}	
 			|  expression
 				{
 					Syntax *var = stack_pop(syntax_stack);
