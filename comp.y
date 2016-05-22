@@ -236,8 +236,6 @@ int main(int argc, char *argv[])
 	syntax_stack = stack_new();
 	string_stack = stack_new();
 	result = yyparse();
-	printf("%s",argv[0]);
-	printf("%s",argv[1]);
 	if (result != 0) {
         printf("\n");
         goto cleanup_syntax;
@@ -257,5 +255,6 @@ cleanup_syntax:
 	stack_free(syntax_stack);
 	stack_free(string_stack);
 	syntax_free(complete_syntax);
+
 
 }

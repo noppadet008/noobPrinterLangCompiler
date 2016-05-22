@@ -236,6 +236,10 @@ BinaryExpressionType invertCondition(BinaryExpressionType type){
         return LESS_THAN_OR_EQUAL;
     else if(type == LESS_THAN_OR_EQUAL){
         return LESS_THAN;
+    }else if(type == EQUAL){
+        return NOT_EQ;
+    }else if(type == NOT_EQ){
+        return EQUAL;
     }
 }
 

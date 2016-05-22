@@ -331,9 +331,9 @@ void emit_expression(Syntax *exp){
             emit_instr_format("addq", "%s ,%%rax",r);
 
         } else if (binary_syntax->binary_type == SUBTRACTION) {
-			
-            emit_instr_format("subq", "%%rax, %s", r);
-            emit_instr_format("movq", "%s, %%rax", r);
+			emit_instr_format("movq", "%s, %%r10", r);
+            emit_ins("subq", "%%r10, %%rax");
+            //emit_instr_format("movq", "%s, %%rax", r);
 
         } else if (binary_syntax->binary_type == DIVIDE) {
 			emit_ins("cltd",NULL);
@@ -387,10 +387,10 @@ void emit_condition(Syntax* condition,int label){
 			emit_instr_format("jle",".LC%d",label);
 		}else if(binary_syntax->binary_type == EQUAL){
 			emit_instr_format("cmpq","%%rax, %%r8");
-			emit_instr_format("jne",".LC%d",label);
+			emit_instr_format("je",".LC%d",label);
 		}else if(binary_syntax->binary_type == NOT_EQ){
 			emit_instr_format("cmpq","%%rax ,%%r8");
-			emit_instr_format("je",".LC%d",label);
+			emit_instr_format("jne",".LC%d",label);
 		}else{
 			printf("unknown condition");
 		}

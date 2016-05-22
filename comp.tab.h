@@ -52,15 +52,17 @@
      STRING = 269,
      SEMICOLON = 270,
      ASSIGN = 271,
-     EQ = 272,
-     LESSTHAN = 273,
-     MORETHAN = 274,
-     MINUS = 275,
-     ADD = 276,
-     MOD = 277,
-     DIV = 278,
-     MUL = 279,
-     NEG = 280
+     LESSTHAN_EQ = 272,
+     MORETHAN_EQ = 273,
+     EQ = 274,
+     LESSTHAN = 275,
+     MORETHAN = 276,
+     MINUS = 277,
+     ADD = 278,
+     MOD = 279,
+     DIV = 280,
+     MUL = 281,
+     NEG = 282
    };
 #endif
 
@@ -79,7 +81,7 @@ typedef union YYSTYPE
 
 
 /* Line 1685 of yacc.c  */
-#line 83 "comp.tab.h"
+#line 85 "comp.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

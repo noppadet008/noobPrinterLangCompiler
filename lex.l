@@ -131,6 +131,7 @@ char* normstr(char* str){
     for(;i<strlen(str)-2;i++){//index 0-(length-1) -1 head  -1 tail  +1 /0
         *(newstr+i) = *(str+i+1);
     }
+    *(newstr+i) = (char)0;
     return newstr;
 }
 
